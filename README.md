@@ -1,70 +1,115 @@
-# WanderWise — Personalized Travel Itinerary Planner
+# WanderWise
 
-React + Vite + Tailwind · FastAPI · Supabase (Auth + Postgres) · Groq (Llama)
+**Your next adventure, intelligently planned.**
 
-```
-wanderwise/
-├── backend/   main.py schemas.py itinerary.py requirements.txt Procfile .env.example
-├── frontend/  package.json vite/tailwind config, vercel.json, .env.example, src/
-│              src/App.jsx  src/lib/{api,supabase}.js  src/components/{Auth,Dashboard,TripForm,TripView}.jsx
-└── database/  schema.sql
-```
+WanderWise is an AI-powered travel itinerary planner that helps you create personalized, day-by-day travel plans based on your destination, budget, travel dates, interests, and travel style.
 
-## Modes
-| Config | Behavior |
+## Features
+
+- **Personalized itineraries** tailored to your travel preferences.
+- **Day-by-day planning** to organize activities throughout your trip.
+- **Budget estimation** for accommodation, food, transportation, and activities.
+- **AI-powered recommendations** using Groq and Llama models.
+- **Travel suggestions** for attractions, dining, and transportation.
+- **Trip management** to save, edit, regenerate, and delete itineraries.
+- **Authentication** through optional Supabase integration.
+- **Cloud storage** for saving and retrieving trips.
+- **Responsive interface** for desktop and mobile screens.
+
+## Tech Stack
+
+| Technology | Purpose |
 |---|---|
-| Groq key set | AI itineraries, badge **AI-generated** |
-| No Groq key / Groq error | Template itinerary, badge **Demo-generated, not AI** + notice |
-| Supabase set (both ends) | Email/password auth, trips in Postgres (RLS), generate endpoint requires login |
-| No Supabase | **No login.** Trips saved only in browser localStorage. Planner fully usable. |
+| React | Frontend |
+| Vite | Development and build tooling |
+| Tailwind CSS | Styling |
+| FastAPI | Backend API |
+| Python | Backend development |
+| Groq / Llama | AI itinerary generation |
+| Supabase | Authentication and database |
 
-## 1. Supabase (skip for pure demo mode)
-1. Create project → SQL Editor → run `database/schema.sql`.
-2. Authentication → Providers → Email enabled. For fast demos: turn **Confirm email** off.
-3. Project Settings → API: copy URL, publishable/anon key (frontend), service-role/secret key (backend only).
+## Getting Started
 
-## 2. Run locally
-**Backend**
+### Prerequisites
+
+- Node.js and npm
+- Python
+- Groq API key (optional)
+- Supabase project (optional)
+
+### Installation
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/<your-username>/<your-repository>.git
+cd <your-repository>
+```
+
+**2. Start the backend**
+
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env     # fill GROQ_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (all optional)
+cp .env.example .env
 uvicorn main:app --reload --port 8000
 ```
-Check: http://localhost:8000/api/health → shows `ai_configured`, `auth_configured`.
 
-**Frontend**
+**3. Start the frontend**
+
+Open a second terminal:
+
 ```bash
 cd frontend
 npm install
-cp .env.example .env     # VITE_API_URL, VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
-npm run dev              # http://localhost:5173
+cp .env.example .env
+npm run dev
 ```
 
-## 3. Deploy
-**Backend → Render** (or Railway/Fly): New Web Service from repo, root dir `backend`.
-- Build: `pip install -r requirements.txt`
-- Start: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-- Env: `GROQ_API_KEY`, `GROQ_MODEL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `FRONTEND_ORIGINS=https://<your-app>.vercel.app`
-- Optional for Vercel previews: `ALLOW_ORIGIN_REGEX=https://.*\.vercel\.app`
+Open the local URL displayed by Vite in your browser.
 
-**Frontend → Vercel**
-```bash
-npm i -g vercel
-cd frontend
-vercel            # framework: Vite, build: npm run build, output: dist
-vercel env add VITE_API_URL production            # https://<backend-host>
-vercel env add VITE_SUPABASE_URL production
-vercel env add VITE_SUPABASE_ANON_KEY production  # anon/publishable ONLY
-vercel --prod
-```
-Then set the Vercel URL in the backend `FRONTEND_ORIGINS` and redeploy. In Supabase → Auth → URL Configuration, set Site URL to the Vercel URL.
+Configure the environment variables in the respective `.env` files to enable AI generation and Supabase features.
 
-## API
-`GET /api/health` · `POST /api/itinerary/generate` · `GET|POST /api/trips` · `GET|PUT|DELETE /api/trips/{id}` (Bearer = Supabase access token)
+## Environment Variables
 
-## Security notes
-- Groq key and Supabase service-role key exist only in `backend/.env`. Frontend gets only the anon key.
-- Backend verifies each JWT via Supabase and scopes every query by `user_id`; RLS is enabled as a second layer.
-- If Groq retires the default model, set `GROQ_MODEL` to a current Llama model from console.groq.com/docs/models.
+### Backend
+
+- `GROQ_API_KEY` — Enables AI itinerary generation.
+- `GROQ_MODEL` — Specifies the Groq model.
+- `SUPABASE_URL` — Supabase project URL.
+- `SUPABASE_SERVICE_ROLE_KEY` — Server-side Supabase credentials. Keep this secret.
+
+### Frontend
+
+- `VITE_API_URL` — Backend API URL.
+- `VITE_SUPABASE_URL` — Supabase project URL.
+- `VITE_SUPABASE_ANON_KEY` — Supabase publishable/anon key.
+
+Never commit secret keys or `.env` files to GitHub.
+
+## Future Improvements
+
+- Interactive maps and route visualization
+- Real-time weather information
+- Live attraction details and opening hours
+- PDF itinerary exports
+- More personalized recommendations
+
+## Contributing
+
+Contributions, feature suggestions, and bug reports are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes.
+4. Open a pull request.
+
+## License
+
+No license has been specified yet. Add a `LICENSE` file if you intend to distribute the project under an open-source license.
+
+---
+
+**WanderWise — Explore more. Plan smarter. Travel better.**
