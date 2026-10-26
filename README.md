@@ -107,9 +107,6 @@ Contributions, feature suggestions, and bug reports are welcome.
 3. Commit your changes.
 4. Open a pull request.
 
-## License
-
-No license has been specified yet. Add a `LICENSE` file if you intend to distribute the project under an open-source license.
 
 ---
 
