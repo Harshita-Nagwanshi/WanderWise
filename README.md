@@ -1,9 +1,10 @@
 # WanderWise
 
 **Your next adventure, intelligently planned.**
+Live Demo: wander-wise-swart.vercel.app
 
 WanderWise is an AI-powered travel itinerary planner that helps you create personalized, day-by-day travel plans based on your destination, budget, travel dates, interests, and travel style.
-Live Demo: wander-wise-swart.vercel.app
+
 
 ## Features
 
